@@ -1,0 +1,27 @@
+tasks:
+  install-dependencies:
+    name: Install dependencies
+    description: Download the repository's pinned Go modules without changing them
+    command: go mod download
+    triggeredBy:
+      - manual
+      - postDevcontainerStart
+      - prebuild
+
+  test:
+    name: Run tests
+    description: Run the repository's Go test suite
+    command: go test ./...
+    dependsOn:
+      - install-dependencies
+    triggeredBy:
+      - manual
+
+  build:
+    name: Build
+    description: Attempt the repository's normal instrumented Makefile build
+    command: make
+    dependsOn:
+      - install-dependencies
+    triggeredBy:
+      - manual
